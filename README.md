@@ -9,10 +9,10 @@ This package contains **roles + playbooks + inventory** to manage:
 
 ## 🚀 Steps to Use
 
-### 1. Unzip the package
+### 1. clone the repo
 ```bash
-unzip ansible-azure-infra.zip
-cd ansible-azure-infra
+git clone repourl
+cd repourl
 ```
 
 ### 2. Install required collections
