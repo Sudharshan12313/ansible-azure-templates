@@ -1,0 +1,17 @@
+---
+- name: Create NSG with multiple rules
+  azure.azcollection.azure_rm_networksecuritygroup:
+    resource_group: "{{ rg_name }}"
+    name: "{{ nsg_name }}"
+    location: "{{ location }}"
+    rules: >
+      {{
+        rules | map('combine', {
+          'direction': 'Inbound',
+          'access': 'Allow',
+          'protocol': 'Tcp',
+          'source_port_range': '*',
+          'source_address_prefix': '*',
+          'destination_address_prefix': '*'
+        }) | list
+      }}

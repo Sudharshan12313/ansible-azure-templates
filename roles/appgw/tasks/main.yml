@@ -1,0 +1,41 @@
+---
+- name: Create Public IP for App Gateway
+  azure.azcollection.azure_rm_publicipaddress:
+    resource_group: "{{ rg_name }}"
+    name: "{{ pip_name }}"
+    allocation_method: Static
+    location: "{{ location }}"
+
+- name: Deploy App Gateway
+  azure.azcollection.azure_rm_appgateway:
+    resource_group: "{{ rg_name }}"
+    name: "{{ agw_name }}"
+    location: "{{ location }}"
+    sku: Standard_v2
+    gateway_ip_configurations:
+      - subnet: "{{ subnet_name }}"
+    frontend_ip_configurations:
+      - name: frontend
+        public_ip_address: "{{ pip_name }}"
+    frontend_ports:
+      - name: port80
+        port: 80
+    backend_address_pools:
+      - name: pool1
+        backend_addresses:
+          - ip_address: "{{ backend_ip }}"
+    backend_http_settings_collection:
+      - name: setting1
+        port: 80
+        protocol: Http
+    http_listeners:
+      - name: listener1
+        frontend_ip_configuration: frontend
+        frontend_port: port80
+        protocol: Http
+    request_routing_rules:
+      - name: rule1
+        rule_type: Basic
+        http_listener: listener1
+        backend_address_pool: pool1
+        backend_http_settings: setting1

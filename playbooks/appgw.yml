@@ -1,0 +1,13 @@
+---
+- name: Deploy Application Gateway
+  hosts: localhost
+  vars:
+    rg_name: demo-rg
+    location: eastus
+    agw_name: demo-agw
+    vnet_name: transit-vnet
+    subnet_name: GatewaySubnet
+    pip_name: demo-agw-pip
+    backend_ip: 10.0.2.5
+  roles:
+    - appgw

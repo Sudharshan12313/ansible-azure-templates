@@ -1,0 +1,20 @@
+---
+# Linux patching
+- name: Update apt packages (Debian/Ubuntu)
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+  when: ansible_os_family == "Debian"
+
+- name: Update yum packages (RHEL/CentOS)
+  ansible.builtin.yum:
+    name: "*"
+    state: latest
+  when: ansible_os_family == "RedHat"
+
+# Windows patching
+- name: Install Windows security updates
+  ansible.windows.win_updates:
+    category_names: ["SecurityUpdates"]
+    reboot: yes
+  when: ansible_os_family == "Windows"

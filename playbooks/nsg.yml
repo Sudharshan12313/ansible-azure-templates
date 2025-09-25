@@ -1,0 +1,14 @@
+---
+- name: Create NSG with multiple rules
+  hosts: localhost
+  vars:
+    rg_name: demo-rg
+    nsg_name: demo-nsg
+    location: eastus
+    rules:
+      - { name: AllowSSH,   priority: 100, destination_port_range: 22 }
+      - { name: AllowHTTP,  priority: 200, destination_port_range: 80 }
+      - { name: AllowHTTPS, priority: 300, destination_port_range: 443 }
+      - { name: AllowRDP,   priority: 400, destination_port_range: 3389 }
+  roles:
+    - nsg

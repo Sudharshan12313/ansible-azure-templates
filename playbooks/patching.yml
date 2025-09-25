@@ -1,0 +1,11 @@
+---
+- name: Patch Linux VMs
+  hosts: linux
+  become: true
+  roles:
+    - patching
+
+- name: Patch Windows VMs
+  hosts: windows
+  roles:
+    - patching
